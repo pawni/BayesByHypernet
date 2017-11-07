@@ -1,5 +1,5 @@
 # Implicit Weight Uncertainty in Neural Networks
-This repository contains the code for the paper Implicit Weight Uncertainty in Neural Networks ([arXiv](https://arxiv.org/abs/TODO)).
+This repository contains the code for the paper Implicit Weight Uncertainty in Neural Networks ([arXiv](https://arxiv.org/abs/1711.01297)).
 
 ## Abstract
 We interpret HyperNetworks within the framework of variational inference within implicit distributions. Our method, Bayes by Hypernet, is able to model a richer variational distribution than previous methods. Experiments show that it achieves comparable predictive performance on the MNIST classification task while providing higher predictive uncertainties compared to MC-Dropout and regular maximum likelihood training.
