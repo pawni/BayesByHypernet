@@ -4,6 +4,9 @@ This repository contains the code for the paper Implicit Weight Uncertainty in N
 ## Abstract
 We interpret HyperNetworks within the framework of variational inference within implicit distributions. Our method, Bayes by Hypernet, is able to model a richer variational distribution than previous methods. Experiments show that it achieves comparable predictive performance on the MNIST classification task while providing higher predictive uncertainties compared to MC-Dropout and regular maximum likelihood training.
 
+## IMPORTANT NOTE:
+As George pointed out in an issue (https://github.com/pawni/BayesByHypernet/issues/1) there is a problem with the hypernetwork build in the code here. I am working on a general overhaul of the code and plan updating everything all together. For questions etc. feel free to reach out to me.
+
 ## Usage
 Following libraries were used for development:
 ```
