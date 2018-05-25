@@ -1,28 +1,48 @@
 # Implicit Weight Uncertainty in Neural Networks
-This repository contains the code for the paper Implicit Weight Uncertainty in Neural Networks ([arXiv](https://arxiv.org/abs/1711.01297)).
+This repository contains the code for the paper Implicit Weight
+Uncertainty in Neural Networks
+([arXiv](https://arxiv.org/abs/1711.01297)).
 
 ## Abstract
-We interpret HyperNetworks within the framework of variational inference within implicit distributions. Our method, Bayes by Hypernet, is able to model a richer variational distribution than previous methods. Experiments show that it achieves comparable predictive performance on the MNIST classification task while providing higher predictive uncertainties compared to MC-Dropout and regular maximum likelihood training.
-
-## IMPORTANT NOTE:
-As George pointed out in an issue (https://github.com/pawni/BayesByHypernet/issues/1) there is a problem with the hypernetwork build in the code here. I am working on a general overhaul of the code and plan updating everything all together. For questions etc. feel free to reach out to me.
+Modern neural networks tend to be overconfident on unseen, noisy or
+incorrectly labelled data and do not produce meaningful uncertainty
+measures. Bayesian deep learning aims to address this shortcoming with
+variational approximations (such as Bayes by Backprop or Multiplicative
+Normalising Flows). However, current approaches have limitations
+regarding flexibility and scalability. We introduce Bayes by Hypernet
+(BbH), a new method of variational approximation that interprets
+hypernetworks as implicit distributions. It naturally uses neural
+networks to model arbitrarily complex distributions and scales to
+modern deep learning architectures. In our experiments, we demonstrate
+that our method achieves competitive accuracies and predictive
+uncertainties on MNIST and a CIFAR5 task, while being the most robust
+against adversarial attacks.
 
 ## Usage
 Following libraries were used for development:
 ```
 future==0.16.0
 jupyter==1.0.0
-matplotlib==1.5.3
-notebook==4.2.3
-numpy==1.13.3
+matplotlib==2.2.2
+notebook==5.0.0
+numpy==1.14.3
+observations==0.1.4
 pandas==0.19.2
-scipy==0.19.1
-seaborn==0.7.1
-tensorflow-gpu==1.4.0rc0
-tqdm==4.11.2
+scikit-learn==0.19.1
+scipy==1.1.0
+seaborn==0.8.1
+tensorflow-gpu==1.7.0
+tqdm==4.19.5
 ```
 
 ## Structure
-The notebooks contain the code for the two experiments. `toy_dataset.ipynb` contains the code for the toy regression. `MNIST.ipynb` contains the code for the MNIST digit classification.
+`toy_data.ipynb` contains the code for the toy regression.
+The other files contain the code for the mnist and cifar experiments.
+`run_*` just calls the experiments. `base_layers` and `layers`
+implement easy to use layers for different VI methods. `networks`
+holds the models and the actual training and evaluation is in
+`experiments` and `utils`.
+
 ## Contact
-For discussion, suggestions or questions don't hesitate to contact n.pawlowski16@imperial.ac.uk .
+For discussion, suggestions or questions don't hesitate to
+contact n.pawlowski16@imperial.ac.uk .
