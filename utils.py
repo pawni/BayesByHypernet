@@ -18,12 +18,16 @@ except Exception as e:
 
 
 # read mnist data
-mnist = input_data.read_data_sets('../../../../data/mnist')  # put data path
+mnist = input_data.read_data_sets('/vol/biomedic/users/np716/data/mnist')  # put data path
 # here
 not_mnist = input_data.read_data_sets(
-    '../../../../data/notMNIST_real/notMNIST-to-MNIST-master/')  # put data
+    '/vol/biomedic/users/np716/data/notMNIST_real/notMNIST-to-MNIST-master/')  # put data
 # path here
 
+swelling_sets = []
+for s in np.arange(3, 12):
+    swelling_sets.append(input_data.read_data_sets(
+        '/vol/biomedic/users/np716/data/morphomnist/swelling_r{}_s3/'.format(s)))
 
 # helper for rotation
 def rotate(img, angle):
@@ -65,12 +69,12 @@ def get_pred_df(data, session, ops, mode):
 
     for sample_idx in range(probs.shape[1]):  # per data sample
         for class_idx in range(10):  # per class ...
-            data = zip(
+            data = list(zip(
                 probs[:, sample_idx, class_idx],
                 [class_idx] * len(probs),
                 [sample_idx] * len(probs),
                 list(range(len(probs)))
-            )
+            ))
             new_df = pd.DataFrame(columns=cols, data=data)
             df = pd.concat([df, new_df])
 
@@ -144,6 +148,8 @@ def build_result_dict(session, ops, mode):
         mean_probs[np.arange(len(mean_probs)), mnist.test.labels],
         normalize=False, n_bins=50)
 
+    result_dict['mean_probs'] = mean_probs
+
     result_dict['test_acc'] = test_acc
     result_dict['test_ent_auc'] = test_ent_auc
     result_dict['test_entropy'] = test_entropy
@@ -156,6 +162,7 @@ def build_result_dict(session, ops, mode):
     not_mnist_entropy = calc_entropy(mean_probs)
     not_mnist_ent_auc = calc_ent_auc(not_mnist_entropy)
 
+    result_dict['not_mnist_mean_probs'] = mean_probs
     result_dict['not_mnist_entropy'] = not_mnist_entropy
     result_dict['not_mnist_ent_auc'] = not_mnist_ent_auc
 
@@ -177,6 +184,19 @@ def build_result_dict(session, ops, mode):
                                    adv_ent_auc]
 
     result_dict['adv_df'] = adv_df
+
+    swelling_df = pd.DataFrame(columns=['swelling', 'acc', 'ent', 'ent_auc'])
+    for i, s in enumerate(np.arange(3, 12)):
+        cur_data = swelling_sets[i]
+        sw_probs = get_probs(cur_data.test.images, session, ops, mode)
+        mean_sw_probs = sw_probs.mean(0)
+        sw_acc = np.mean(
+            np.argmax(mean_sw_probs, -1) == mnist.test.labels)
+        sw_entropy = calc_entropy(mean_sw_probs)
+        sw_ent_auc = calc_ent_auc(sw_entropy)
+        swelling_df.loc[len(swelling_df)] = [s, sw_acc, sw_entropy.mean(),
+                                             sw_ent_auc]
+    result_dict['swelling_df'] = swelling_df
 
     # run predictions after training
     # need:
