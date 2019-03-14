@@ -380,9 +380,11 @@ def run_disc_experiment(ops, config):
     gen_logits = discriminator(gen_weights)
 
     loss_gen = - tf.reduce_mean(
-        tf.log(tf.nn.sigmoid(gen_logits) + 1e-8, name='log_g_d'))
+        tf.log(tf.clip_by_value(tf.nn.sigmoid(gen_logits), 1e-8, 1.0),
+               name='log_g_d'))
     loss_prior = - tf.reduce_mean(
-        tf.log(1 - tf.nn.sigmoid(prior_logits) + 1e-8, name='log_n_d'))
+        tf.log(tf.clip_by_value(1 - tf.nn.sigmoid(prior_logits), 1e-8, 1.0),
+               name='log_n_d'))
 
     disc_loss = loss_gen + loss_prior
 
@@ -417,8 +419,15 @@ def run_disc_experiment(ops, config):
     else:
         loss += scaling * kl
 
-    train_op = opt.minimize(loss, var_list=net_vars)
-    train_op_disc = opt.minimize(disc_loss, var_list=disc_vars)
+    def optimise(opt, loss, vars):
+        gvs = opt.compute_gradients(loss, var_list=vars)
+        capped_gvs = [(tf.clip_by_value(grad, -5., 5.), var) for grad, var in
+                      gvs]
+        train_op = opt.apply_gradients(capped_gvs)
+        return train_op
+
+    train_op = optimise(opt, loss, net_vars)
+    train_op_disc = optimise(opt, disc_loss, disc_vars)
 
     prior_matching_loss = kl
     prior_matching_loss_scaled = scaling * kl

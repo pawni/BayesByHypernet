@@ -52,6 +52,7 @@ if __name__ == '__main__':
     config['prior_scale'] = args.prior_scale
     config['optimiser'] = 'adam'
     config['mod'] = 'bbb'
+    config['args'] = str(args)
 
     tf.reset_default_graph()
     config['experiment'] = 'bbb_analytical'
@@ -64,6 +65,16 @@ if __name__ == '__main__':
 
     tf.reset_default_graph()
     config['experiment'] = 'bbb_klapprox'
+    config['full_kernel'] = False
+    config['args'] = str(args)
+    ops = networks.get_bbb_mnist({}, init_var=-9.,
+                                 prior_scale=args.prior_scale,
+                                 aligned_noise=args.align_noise)
+    experiments.run_klapprox_experiment(ops, config)
+
+    tf.reset_default_graph()
+    config['experiment'] = 'bbb_klapprox_fullkernel'
+    config['full_kernel'] = True
     config['args'] = str(args)
     ops = networks.get_bbb_mnist({}, init_var=-9.,
                                  prior_scale=args.prior_scale,

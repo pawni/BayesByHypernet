@@ -46,3 +46,44 @@ holds the models and the actual training and evaluation is in
 ## Contact
 For discussion, suggestions or questions don't hesitate to
 contact n.pawlowski16@imperial.ac.uk .
+
+
+### Commands to run experiments:
+MNIST:
+```
+python run_bbh_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/bbh/ -x layer_a_prior1_fullkernel_noise8 --layer_wise_gen --noise_shape 8 -a --prior_scale 1. --full_kernel -c 0
+python run_bbh_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/bbh/ -x layer_a_prior1_fullkernel_noise1 --layer_wise_gen --noise_shape 1 -a --prior_scale 1. --full_kernel -c 0
+python run_bbh_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/bbh/ -x layer_a_prior1_fullkernel_noise64 --layer_wise_gen --noise_shape 64 -a --prior_scale 1. --full_kernel -c 0
+
+python run_bbh_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/bbh/ -x layer_a_prior1_fullkernel_indnoise8 --independent_noise --layer_wise_gen --noise_shape 8 -a --prior_scale 1. --full_kernel -c 0
+python run_bbh_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/bbh/ -x layer_a_prior1_fullkernel_indnoise1 --independent_noise --layer_wise_gen --noise_shape 1 -a --prior_scale 1. --full_kernel -c 0
+python run_bbh_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/bbh/ -x layer_a_prior1_fullkernel_indnoise64 --independent_noise --layer_wise_gen --noise_shape 64 -a --prior_scale 1. --full_kernel -c 0
+
+python run_dropout_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/dropout/ -x dropout_standard -c 0
+python run_map_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/map/ -x map_standard -c 0
+python run_ensemble_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/ensemble/ -x ensemble_standard -c 1
+python run_mnf_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/mnf/ -x mnf_a -a -c 3
+python run_bbb_exp.py -e 100 -p /vol/biomedic2/np716/bbh_uai/mnist/bbb/ -x prior_1 --prior_scale 1. -c 4
+
+
+
+```
+
+CIFAR:
+```
+
+python run_dropout_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/dropout/ -x dropout_standard -c 0
+python run_map_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/map/ -x map_standard -c 0
+python run_bbb_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/bbb/ -x prior_1 --prior_scale 1. -c 2
+python run_ensemble_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/ensemble/ -x ensemble_standard -c 0
+python run_mnf_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/mnf/ -x mnf_a -a -c 1
+python run_bbh_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/bbh/ -x layer_a_prior1_fullkernel_noise8 --layer_wise_gen --noise_shape 8 -a --prior_scale 1. --full_kernel -c 1
+python run_bbh_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/bbh/ -x layer_a_prior1_fullkernel_noise1 --layer_wise_gen --noise_shape 1 -a --prior_scale 1. --full_kernel -c 0
+python run_bbh_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/bbh/ -x layer_a_prior1_fullkernel_noise64 --layer_wise_gen --noise_shape 64 -a --prior_scale 1. --full_kernel -c 0
+
+python run_bbh_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/bbh/ -x layer_a_prior1_fullkernel_indnoise8 --independent_noise --layer_wise_gen --noise_shape 8 -a --prior_scale 1. --full_kernel -c 0
+python run_bbh_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/bbh/ -x layer_a_prior1_fullkernel_indnoise1 --independent_noise --layer_wise_gen --noise_shape 1 -a --prior_scale 1. --full_kernel -c 0
+python run_bbh_cifar_resnet_exp.py -e 200 -p /vol/biomedic2/np716/bbh_uai/cifar/bbh/ -x layer_a_prior1_fullkernel_indnoise64 --independent_noise --layer_wise_gen --noise_shape 64 -a --prior_scale 1. --full_kernel -c 0
+
+
+```

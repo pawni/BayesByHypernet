@@ -204,8 +204,7 @@ def run_klapprox_experiment(ops, config):
         wp_dist = tf.reduce_min(wp_distances, 0)
 
         ww_distances = tf.sqrt(
-            tf.reduce_sum(ww_distances, 0) + 1e-8) + tf.expand_dims(
-            tf.eye(num_samples) * 1e10)
+            tf.reduce_sum(ww_distances, 0) + 1e-8) + tf.eye(num_samples) * 1e10
         ww_dist = tf.reduce_min(ww_distances, 0)
 
         # mean over samples
