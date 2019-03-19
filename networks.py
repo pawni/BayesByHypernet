@@ -1117,14 +1117,14 @@ def get_mnf_cifar_resnet(ops, learn_p=False, thres_var=0.3):
                 x = bn1(x, training=True)
                 x = tf.nn.relu(x)
 
-                x = c1(x, sample)
+                x = c1(x)
 
             with tf.variable_scope('sub_unit1', reuse=tf.AUTO_REUSE):
                 # x = bn2(x, training=tf.logical_not(is_eval))
                 x = bn2(x, training=True)
                 x = tf.nn.relu(x)
 
-                x = c2(x, sample)
+                x = c2(x)
 
             # Add the residual
             with tf.variable_scope('sub_unit_add'):
@@ -1144,7 +1144,7 @@ def get_mnf_cifar_resnet(ops, learn_p=False, thres_var=0.3):
 
             return x
 
-        x = all_layers['conv1'](x, sample)
+        x = all_layers['conv1'](x)
 
         for scale, filter in enumerate(filters[1:]):
             s = 'scale{}'.format(scale)
@@ -1166,7 +1166,7 @@ def get_mnf_cifar_resnet(ops, learn_p=False, thres_var=0.3):
 
         x = tf.reduce_mean(x, axis=[1, 2], name='global_avg_pool')
 
-        x = all_layers['last'](x, sample)
+        x = all_layers['last'](x)
 
         return x
 
