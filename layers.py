@@ -462,11 +462,15 @@ class MNFDenseLayer(Layer):
 
         return w_sample
 
-    def call(self, x, *args, **kwargs):
+    def call(self, x, sample_shape=None):
+        if sample_shape is None:
+            sample_shape = tf.shape(x)[0]
+
         std_mg = tf.clip_by_value(
             tf.exp(self.w_log_scale_sq), 0., self.thres_var)
         var_mg = tf.square(std_mg)
-        sample_M, _ = self.sample_z(size_M=tf.shape(x)[0])
+        
+        sample_M, _ = self.sample_z(size_M=sample_shape)
         xt = x * sample_M
 
         mu_out = tf.matmul(xt, self.w_loc)

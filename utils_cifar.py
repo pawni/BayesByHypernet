@@ -18,7 +18,8 @@ except Exception as e:
     import pickle
 
 
-(x_train, y_train), (x_test, y_test) = cifar10('/data/np716/cifar_10/')
+(x_train, y_train), (x_test, y_test) = cifar10(
+    '/vol/biomedic/users/np716/data/cifar_10/')
 
 x_train = x_train.transpose(0, 2, 3, 1)
 x_test = x_test.transpose(0, 2, 3, 1)
@@ -135,6 +136,7 @@ def build_result_dict(session, ops, mode):
         mean_probs[np.arange(len(mean_probs)), y_test_first],
         normalize=False, n_bins=50)
 
+    result_dict['mean_probs'] = mean_probs
     result_dict['test_acc'] = test_acc
     result_dict['test_ent_auc'] = test_ent_auc
     result_dict['test_entropy'] = test_entropy
@@ -147,6 +149,7 @@ def build_result_dict(session, ops, mode):
     outlier_entropy = calc_entropy(mean_probs)
     outlier_ent_auc = calc_ent_auc(outlier_entropy)
 
+    result_dict['outlier_mean_probs'] = mean_probs
     result_dict['outlier_entropy'] = outlier_entropy
     result_dict['outlier_ent_auc'] = outlier_ent_auc
 

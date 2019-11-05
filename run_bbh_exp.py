@@ -36,6 +36,8 @@ if __name__ == '__main__':
                         choices=['adam', 'rms'])
     parser.add_argument('--independent_noise', help='', default=False,
                         action='store_true')
+    parser.add_argument('--full_kernel', help='', default=False,
+                        action='store_true')
 
     parser.add_argument('--cuda', '-c', default='0')
     args = parser.parse_args()
@@ -62,6 +64,7 @@ if __name__ == '__main__':
     config['disc_train'] = 1
     config['epochs'] = args.epochs
     config['prior_scale'] = args.prior_scale
+    config['full_kernel'] = args.full_kernel
     config['args'] = str(args)
 
     print(args)

@@ -217,7 +217,7 @@ class MaskedNVPFlow(object):
                 tf.truncated_normal_initializer(0., 0.05))
 
             param_list.append([(w, b)])
-            for l in xrange(self.n_hidden):
+            for l in range(self.n_hidden):
                 wh = tf.get_variable(
                     'w{}_{}_{}'.format(l + 1, self.name, fid),
                     (self.dim_h, self.dim_h), tf.float32,
@@ -252,12 +252,12 @@ class MaskedNVPFlow(object):
             param_list[-1].append((wout, bout, wout2, bout2))
 
     def build(self):
-        for flow in xrange(self.n_flows):
+        for flow in range(self.n_flows):
             self.build_mnn('muf_{}'.format(flow), self.params)
 
     def ff(self, x, weights):
         inputs = [x]
-        for j in xrange(len(weights[:-1])):
+        for j in range(len(weights[:-1])):
             h = tf.matmul(inputs[-1], weights[j][0]) + weights[j][1]
             inputs.append(self.nonlin(h))
         wmu, bmu, wsigma, bsigma = weights[-1]
@@ -273,7 +273,7 @@ class MaskedNVPFlow(object):
 
     def get_output_for(self, z, sample=True):
         logdets = tf.zeros((tf.shape(z)[0],))
-        for flow in xrange(self.n_flows):
+        for flow in range(self.n_flows):
             mask = self.random_bernoulli(tf.shape(z), p=0.5) if sample else 0.5
             ggmu, ggsigma = self.ff(mask * z, self.params[flow])
             gate = tf.nn.sigmoid(ggsigma)
@@ -299,7 +299,7 @@ class PlanarFlow(object):
 
     def build(self):
         with tf.variable_scope(self.scope):
-            for flow in xrange(self.n_flows):
+            for flow in range(self.n_flows):
                 w = tf.get_variable(
                     'w_{}_{}'.format(flow, self.name),
                     (self.incoming, 1), tf.float32,
@@ -319,7 +319,7 @@ class PlanarFlow(object):
 
     def get_output_for(self, z, **kwargs):
         logdets = tf.zeros((tf.shape(z)[0],))
-        for flow in xrange(self.n_flows):
+        for flow in range(self.n_flows):
             w, u, b = self.params[flow]
             uw = tf.reduce_sum(u * w)
             muw = -1 + tf.nn.softplus(uw)  # = -1 + T.log(1 + T.exp(uw))

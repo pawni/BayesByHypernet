@@ -1117,14 +1117,14 @@ def get_mnf_cifar_resnet(ops, learn_p=False, thres_var=0.3):
                 x = bn1(x, training=True)
                 x = tf.nn.relu(x)
 
-                x = c1(x, sample)
+                x = c1(x)
 
             with tf.variable_scope('sub_unit1', reuse=tf.AUTO_REUSE):
                 # x = bn2(x, training=tf.logical_not(is_eval))
                 x = bn2(x, training=True)
                 x = tf.nn.relu(x)
 
-                x = c2(x, sample)
+                x = c2(x)
 
             # Add the residual
             with tf.variable_scope('sub_unit_add'):
@@ -1144,7 +1144,7 @@ def get_mnf_cifar_resnet(ops, learn_p=False, thres_var=0.3):
 
             return x
 
-        x = all_layers['conv1'](x, sample)
+        x = all_layers['conv1'](x)
 
         for scale, filter in enumerate(filters[1:]):
             s = 'scale{}'.format(scale)
@@ -1166,7 +1166,7 @@ def get_mnf_cifar_resnet(ops, learn_p=False, thres_var=0.3):
 
         x = tf.reduce_mean(x, axis=[1, 2], name='global_avg_pool')
 
-        x = all_layers['last'](x, sample)
+        x = all_layers['last'](x)
 
         return x
 
@@ -1479,18 +1479,17 @@ def get_dropout_cifar_resnet(ops, prior_scale=1., keep_prob=0.5):
                 inputs=x, kernel_size=3, filters=out_filters, padding='SAME',
                 kernel_regularizer=regularizer, strides=stride,
                 kernel_initializer=tf.variance_scaling_initializer())
-            x = tf.nn.dropout(x, keep_prob)
 
         with tf.variable_scope('sub_unit1'):
             x = tf.layers.batch_normalization(
                 x, virtual_batch_size=1, training=True)
+            x = tf.nn.dropout(x, keep_prob)
             x = tf.nn.relu(x)
 
             x = tf.layers.conv2d(
                 inputs=x, kernel_size=3, filters=out_filters, padding='SAME',
                 kernel_regularizer=regularizer,
                 kernel_initializer=tf.variance_scaling_initializer())
-            x = tf.nn.dropout(x, keep_prob)
 
         # Add the residual
         with tf.variable_scope('sub_unit_add'):
@@ -1512,7 +1511,6 @@ def get_dropout_cifar_resnet(ops, prior_scale=1., keep_prob=0.5):
         inputs=x, kernel_size=3, filters=filters[0], padding='SAME',
         kernel_regularizer=regularizer,
         kernel_initializer=tf.variance_scaling_initializer())
-    x = tf.nn.dropout(x, keep_prob)
 
     for scale in range(1, len(filters)):
         with tf.variable_scope('unit_{}_0'.format(scale)):
