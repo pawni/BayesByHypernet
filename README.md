@@ -3,6 +3,8 @@ This repository contains the code for the paper Implicit Weight
 Uncertainty in Neural Networks
 ([arXiv](https://arxiv.org/abs/1711.01297)).
 
+There is a starting point of a reimplementation in Pytorch [here](https://github.com/pawni/BayesByHypernet_Pytorch).
+
 ## Abstract
 Modern neural networks tend to be overconfident on unseen, noisy or
 incorrectly labelled data and do not produce meaningful uncertainty
